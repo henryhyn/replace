@@ -6,6 +6,12 @@ class Replace
     end
   end
 
+  def image(string)
+    replace(string) do
+      s /Insert\s(18333fig\d+)\.png\s*\n.*?\d{1,2}-\d{1,2}\. (.*)/, '![\2](\1-tn.png)'
+    end
+  end
+
   def title(string)
     replace(string) do
       s /\A^---\r?\n(.*?)^---\r?\n/m do |match|
