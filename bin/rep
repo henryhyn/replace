@@ -9,5 +9,8 @@ method = ARGV[0]
 Dir['*.md'].map do |file|
   string = File.read(file)
   buffer = Replace.new.send(method, string)
+  unless File.writable?(file)
+    File.open(file).chmod(0644)
+  end
   File.write(file, buffer)
 end
