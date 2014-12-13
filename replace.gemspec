@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Henry He"]
   s.email       = ["henryhyn@163.com"]
-  s.summary     = %q{replace is a ebook maker.}
-  s.description = "the ebook generate tools from markdown plain text"
+  s.summary     = %q{replace file using Regexp.}
+  s.description = "replace file using Regexp."
 
   s.required_rubygems_version = ">= 1.3.6"
 
