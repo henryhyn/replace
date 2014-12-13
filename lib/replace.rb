@@ -1,8 +1,3 @@
-#!/usr/bin/env ruby
-# 字符串替换
-
-require 'yaml'
-
 class Replace
   def simple(string)
     replace(string) do
@@ -29,11 +24,4 @@ class Replace
     end
     string
   end
-end
-
-method = ARGV[0]
-Dir['*.md'].map do |file|
-  string = File.read(file)
-  buffer = Replace.new.send(method, string)
-  File.write(file, buffer)
 end
