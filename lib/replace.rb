@@ -8,9 +8,9 @@ class Replace
 
   def title(string)
     replace(string) do
-      s /^---\r?\n(.*?)^---\r?\n/m do |match|
+      s /\A^---\r?\n(.*?)^---\r?\n/m do |match|
         doc = YAML::load($1)
-        "# #{doc['title']}\n" if doc['title']
+        "# #{doc['title']}\n\n" if doc['title']
       end
     end
   end
