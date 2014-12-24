@@ -1,24 +1,33 @@
 class Replace
-  def simple(string)
-    replace(string) do
+  attr_reader :source
+
+  def initialize(source)
+    @source = source
+  end
+
+  def simple
+    replace(@source) do
       s /cc/, 'dd'
       s /aa/, 'bb'
     end
+    self
   end
 
-  def image(string)
-    replace(string) do
+  def image
+    replace(@source) do
       s /Insert\s(18333fig\d+)\.png\s*\n.*?\d{1,2}-\d{1,2}\. (.*)/, '![\2](\1-tn.png)'
     end
+    self
   end
 
-  def title(string)
-    replace(string) do
+  def title
+    replace(@source) do
       s /\A^---\r?\n(.*?)^---\r?\n/m do |match|
         doc = YAML::load($1)
         "# #{doc['title']}\n\n" if doc['title']
       end
     end
+    self
   end
 
   private
