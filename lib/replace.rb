@@ -25,16 +25,24 @@ class Replace
     punctuation.linebreak
   end
 
+  # 中文标点转为英文标点
+  # 句末符号 .!?;:
+  # 标点符号 `$()''""
+  # 句中符号 ,、
   def punctuation
     replace(@string) do
-      s /，/, ', '
+      s /。/, '.\n'
+      s /．/, '.\n'
+      s /！/, '!\n'
+      s /？/, '?\n'
+      s /；/, ';\n'
       s /：/, ': '
-      s /；/, '; '
-      s /。/, '. '
+      s /，/, ', '
       s /（/, ' ('
       s /）/, ') '
-      s /“/, ' "'
-      s /”/, '" '
+      s /“/, '"'
+      s /”/, '"'
+      s /’/, "'"
     end
     self
   end
