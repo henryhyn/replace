@@ -5,8 +5,10 @@
 require 'yaml'
 require 'replace'
 
+files = '*.md'
+files = ARGV[1] if ARGV.length > 1
 method = ARGV[0]
-Dir['*.md'].map do |file|
+Dir[files].map do |file|
   string = File.read(file)
   replace = Replace.new(string)
   replace.send(method)
