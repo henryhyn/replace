@@ -1,8 +1,12 @@
 class Replace
-  attr_reader :string
+  attr_reader :string, :scan
 
   def initialize(string)
     @string = string
+  end
+
+  def scan_test
+    @scan = @string.scan(/\w+/)
   end
 
   def simple

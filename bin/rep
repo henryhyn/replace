@@ -14,4 +14,5 @@ Dir['*.md'].map do |file|
     File.open(file).chmod(0644)
   end
   File.write(file, replace.string)
+  puts replace.scan unless replace.scan.nil?
 end
