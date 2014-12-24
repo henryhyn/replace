@@ -41,8 +41,32 @@ class Replace
   def image
     replace(@string) do
       s /Insert\s(18333fig\d+)\.png\s*\n.*?\d{1,2}-\d{1,2}\. (.*)/, '![\2](\1-tn.png)'
+      s /!\[(.*?)\]\(.*\/(.*?)\)/, '![\1](\2)'
     end
     self
+  end
+
+  def head_foot
+    replace(@string) do
+      s /\A(^[^\r\n]*\r?\n){11}\s*/m, ''
+      s /^\[«.*?\z/m, ''
+    end
+  end
+
+  def code
+    replace(@string) do
+      s /\{% highlight\s*(\w+)\s*%\}\s*/, '```{.\1}' + "\n"
+      s /\s*\{% endhighlight %\}/m, "\n```\n"
+    end
+  end
+
+  def theorem
+    replace(@string) do
+      s /^([A-Z]+)[.:](.*?)(\n(?=\n)|\Z)/m do
+        css_class = $1.downcase
+        "\\begin{#{css_class}}\n#{$2.strip}\n\\end{#{css_class}}\n"
+      end
+    end
   end
 
   def title
