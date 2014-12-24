@@ -9,6 +9,10 @@ class Replace
     @scan = @string.scan(/\w+/)
   end
 
+  def scan_url
+    @scan = @string.scan(/href=['"](.*?)['"]/)
+  end
+
   def simple
     replace(@string) do
       s /cc/, 'dd'
