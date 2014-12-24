@@ -22,14 +22,14 @@ class Replace
   end
 
   def pre_pandoc_for_latex
-    theorem
+    title
   end
 
   def post_pandoc_for_latex
     replace(@string) do
       s /\{verbatim\}/, '{Verbatim}'
     end
-    self
+    theorem
   end
 
   def standard
@@ -113,7 +113,7 @@ class Replace
 
   def title
     replace(@string) do
-      s /\A^---\r?\n(.*?)^---\r?\n/m do |match|
+      s /\A^-{3,}\r?\n(.*?)^-{3,}\r?\n/m do
         doc = YAML::load($1)
         "# #{doc['title']}\n\n" if doc['title']
       end
