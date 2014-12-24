@@ -104,7 +104,7 @@ class Replace
 
   def theorem
     replace(@string) do
-      s /^([A-Z]+)[.:](.*?)(\n(?=\n)|\Z)/m do
+      s /^(ASSUMPTION|DEFINITION|CONCLUSION|ALGORITHM|EXPERIMENT|EXAMPLE|REMARK|NNOTE|THEOREM|AXIOM|LEMMA|PROPERTY|COROLLARY|PROPOSITION|CLAIM|PROBLEM|QUESTION|CONJECTURE|PROOF|SOLUTION|ANSWER|ANALYSIS)[.:](.*?)(\n(?=\n)|\Z)/mi do
         css_class = $1.downcase
         "\\begin{#{css_class}}\n#{$2.strip}\n\\end{#{css_class}}\n"
       end
