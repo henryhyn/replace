@@ -13,6 +13,31 @@ class Replace
     self
   end
 
+  def standard
+    punctuation.linebreak
+  end
+
+  def punctuation
+    replace(@string) do
+      s /，/, ', '
+      s /：/, ': '
+      s /；/, '; '
+      s /。/, '. '
+      s /（/, ' ('
+      s /）/, ') '
+      s /“/, ' "'
+      s /”/, '" '
+    end
+    self
+  end
+
+  def linebreak
+    replace(@string) do
+      s /\.\s*/, ".\n"
+    end
+    self
+  end
+
   def image
     replace(@string) do
       s /Insert\s(18333fig\d+)\.png\s*\n.*?\d{1,2}-\d{1,2}\. (.*)/, '![\2](\1-tn.png)'
