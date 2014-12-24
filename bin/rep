@@ -13,5 +13,5 @@ Dir['*.md'].map do |file|
   unless File.writable?(file)
     File.open(file).chmod(0644)
   end
-  File.write(file, replace.source)
+  File.write(file, replace.string)
 end
