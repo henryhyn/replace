@@ -33,7 +33,7 @@ class Replace
   end
 
   def standard
-    punctuation.blank
+    code.punctuation.blank
   end
 
   # 中文标点转为英文标点
@@ -96,6 +96,7 @@ class Replace
       s /\A(^[^\r\n]*\r?\n){11}\s*/m, ''
       s /^\[«.*?\z/m, ''
     end
+    self
   end
 
   def code
@@ -103,8 +104,9 @@ class Replace
       s /\{% highlight\s*(\w+)\s*%\}\s*/, '```{.\1}' + "\n"
       s /\s*\{% endhighlight %\}/m, "\n```\n"
       # 行内代码两边各留一个空格
-      s /([[:alnum:]])`([^`]+)`([[:alnum:]])/, '\1 `\2` \3'
+      s /([[:alnum:]])`([^`]+?)`([[:alnum:]])/, '\1 `\2` \3'
     end
+    self
   end
 
   def theorem
@@ -114,6 +116,7 @@ class Replace
         "\\begin{#{css_class}}\n#{$2.strip}\n\\end{#{css_class}}\n"
       end
     end
+    self
   end
 
   def title
