@@ -31,11 +31,11 @@ class Replace
   # 句中符号 ,、
   def punctuation
     replace(@string) do
-      s /。/, '.\n'
-      s /．/, '.\n'
-      s /！/, '!\n'
-      s /？/, '?\n'
-      s /；/, ';\n'
+      s /。/, ".\n"
+      s /．/, ".\n"
+      s /！/, "!\n"
+      s /？/, "?\n"
+      s /；/, ";\n"
       s /：/, ': '
       s /，/, ', '
       s /（/, ' ('
