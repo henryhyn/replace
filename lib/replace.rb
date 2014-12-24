@@ -22,7 +22,7 @@ class Replace
   end
 
   def standard
-    punctuation.linebreak
+    punctuation.blank
   end
 
   # 中文标点转为英文标点
@@ -50,6 +50,13 @@ class Replace
   def linebreak
     replace(@string) do
       s /\.\s*/, ".\n"
+    end
+    self
+  end
+
+  def blank
+    replace(@string) do
+      s /\s+\r?\n/, "\n" # 删除行尾空格
     end
     self
   end
