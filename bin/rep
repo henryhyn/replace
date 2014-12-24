@@ -8,9 +8,10 @@ require 'replace'
 method = ARGV[0]
 Dir['*.md'].map do |file|
   string = File.read(file)
-  buffer = Replace.new.send(method, string)
+  replace = Replace.new(string)
+  buffer = replace.send(method)
   unless File.writable?(file)
     File.open(file).chmod(0644)
   end
-  File.write(file, buffer)
+  File.write(file, buffer.source)
 end
