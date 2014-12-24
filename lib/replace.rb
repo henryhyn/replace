@@ -42,8 +42,8 @@ class Replace
   # 句中符号 ,、
   def punctuation
     replace(@string) do
-      s /。/, ".\n"
-      s /．/, ".\n"
+      s /(\p{Lo})\s*[。．]\s*(\p{Lo})/, '\1.'"\n"'\2'
+      s /[。．]/, '.'
       s /！/, "!\n"
       s /？/, "?\n"
       s /；/, ";\n"
