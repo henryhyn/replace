@@ -21,6 +21,17 @@ class Replace
     self
   end
 
+  def pre_pandoc_for_latex
+    theorem
+  end
+
+  def post_pandoc_for_latex
+    replace(@string) do
+      s /\{verbatim\}/, '{Verbatim}'
+    end
+    self
+  end
+
   def standard
     punctuation.blank
   end
