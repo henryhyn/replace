@@ -56,7 +56,10 @@ class Replace
 
   def blank
     replace(@string) do
-      s /\s+\r?\n/, "\n" # 删除行尾空格
+      # 将看上去像空白行的行变成真正的空白行
+      s /^\s+\r?\n/m, "\n"
+      # 删除行尾空格
+      s /[[:blank:]]+\r?\n/, "\n"
     end
     self
   end
