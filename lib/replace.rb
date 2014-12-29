@@ -28,6 +28,7 @@ class Replace
   def post_pandoc_for_latex
     replace(@string) do
       s /\{verbatim\}/, '{Verbatim}'
+      s /\\begin\{center\}\\rule\{3in\}\{0.4pt\}\\end\{center\}/, '\newpage'
     end
     theorem
   end
