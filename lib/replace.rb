@@ -130,6 +130,14 @@ class Replace
     self
   end
 
+  def del_italics_and_bold
+    replace(@string) do
+      s /([\W_]|^)(\*\*|__)(?=\S)([^\r]*?\S[\*_]*)\2([\W_]|$)/, '\1\3\4'
+      s /([\W_]|^)(\*|_)(?=\S)([^\r\*_]*?\S)\2([\W_]|$)/, '\1\3\4'
+    end
+    self
+  end
+
   private
 
   def replace(string, &block)
