@@ -138,6 +138,15 @@ class Replace
     self
   end
 
+  def foreign_literature
+    replace(@string) do
+      s /^[　\s]+/, ''
+      s /\s*\n/, "\n\n"
+      s /\${4,}\s*/, '#### '
+    end
+    self
+  end
+
   private
 
   def replace(string, &block)
