@@ -117,6 +117,11 @@ class Replace
         "\\begin{#{css_class}}\n#{$2.strip}\n\\end{#{css_class}}\n"
       end
     end
+    replace(@string) do
+      s /^(PART)[.:](.*?)(\n(?=\n)|\Z)/mi do
+        "\\#{$1.downcase}{#{$2.strip}}\n"
+      end
+    end
     self
   end
 
