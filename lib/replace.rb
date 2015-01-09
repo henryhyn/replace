@@ -143,6 +143,7 @@ class Replace
       s /^[　\s]+/, ''
       s /\s*\n/, "\n\n"
       s /\${4,}\s*/, '#### '
+      s /[\u{001A}]/, ''
     end
     self
   end
