@@ -53,6 +53,24 @@ class Replace
   # 句中符号 ,、
   def punctuation
     replace(@string) do
+      # ！＂＃＄％＆＇（）＊＋，－．／
+      # ０１２３４５６７８９：；＜＝＞？
+      # ＠ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯ
+      # ＰＱＲＳＴＵＶＷＸＹＺ［＼］＾＿
+      # ｀ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏ
+      # ｐｑｒｓｔｕｖｗｘｙｚ｛｜｝～
+      # !"#$%&'()*+,-./
+      # 0123456789:;<=>?
+      # @ABCDEFGHIJKLMNO
+      # PQRSTUVWXYZ[\]^_
+      # `abcdefghijklmno
+      # pqrstuvwxyz{|}~
+      s /([\u{FF01}-\u{FF5E}])/ do
+        bytes = $1.bytes
+        bytes[2] -= 0x60
+        bytes[2] += 64*bytes[1]
+        bytes[2..2].pack("c*")
+      end
       s /(\p{Han})\s*[。．]\s*(\p{Han})/, '\1.'"\n"'\2'
       s /[。．]/, '. '
       s /(\p{Han})\s*[！]\s*(\p{Han})/, '\1!'"\n"'\2'
