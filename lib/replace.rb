@@ -21,6 +21,16 @@ class Replace
     self
   end
 
+  def rename
+    replace(@string) do
+      s /!\[\]\(image(\d+).jpg\)/ do
+        i = $1.to_i - 1
+        "![](image%03d.jpg)" % i
+      end
+    end
+    self
+  end
+
   def pre_pandoc_for_latex
     title
   end
@@ -58,6 +68,7 @@ class Replace
       s /“/, '"'
       s /”/, '"'
       s /’/, "'"
+      s /～/, '~'
     end
     self
   end
@@ -80,6 +91,8 @@ class Replace
       # 添加汉字与数字、英文之间的空格
       s /(\p{Lo})(\w)/, '\1 \2'
       s /(\w)(\p{Lo})/, '\1 \2'
+      # 删除多余的空行
+      s /(\r?\n){3,}/, "\n\n"
     end
     self
   end
@@ -149,6 +162,9 @@ class Replace
       s /\s*\n/, "\n\n"
       s /\${4,}\s*/, '#### '
       s /[　\u{001A}]/, ''
+      s /# [０-９]+．\s*/, '## '
+      s /#### 第[^\r\n]+[卷部]\s*(.*)\s*\n/, "PART: "'\1'"\n\n"
+      s /#### 第[^\r\n]+[章]\s*(.*)\s*\n/, "# "'\1'"\n\n"
     end
     self
   end
