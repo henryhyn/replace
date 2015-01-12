@@ -67,6 +67,7 @@ class Replace
       # pqrstuvwxyz{|}~
       s /([\u{FF01}-\u{FF5E}])/ do
         bytes = $1.bytes
+        bytes[1] -= 0xBC
         bytes[2] -= 0x60
         bytes[2] += 64*bytes[1]
         bytes[2..2].pack("c*")
