@@ -83,7 +83,7 @@ class Replace
   def blank
     replace(@string) do
       # 删除行尾空格, 将看上去像空白行的行变成真正的空白行
-      s /\s+\r?\n/, "\n"
+      s /[[:blank:]]+\r?\n/, "\n"
       # 删除多余的空行
       s /(^\r?\n){2,}/, "\n"
       # 删除汉字之间的空格
