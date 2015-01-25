@@ -128,6 +128,8 @@ class Replace
   def linebreak
     replace(@string) do
       s /(\p{Han})\r?\n/, '\1'
+      s /\r?\n^([[:punct:]])/, '\1'
+      s /\\\r?\n/, "\n"
     end
     self
   end
