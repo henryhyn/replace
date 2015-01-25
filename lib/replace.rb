@@ -107,8 +107,6 @@ class Replace
 
   def blank
     replace(@string) do
-      # 删除多余的空行
-      s /(^\r?\n){2,}/, "\n"
       # 删除汉字之间的空格
       s /(\p{Han})[[:blank:]]+(\p{Han})/, '\1\2'
       # 添加汉字与数字、英文之间的空格
@@ -130,6 +128,14 @@ class Replace
   def del_foot_blank
     replace(@string) do
       s /[[:blank:]]+\r?\n/, "\n"
+    end
+    self
+  end
+
+  # 删除多余的空行
+  def del_blank_line
+    replace(@string) do
+      s /(^\r?\n){2,}/, "\n"
     end
     self
   end
