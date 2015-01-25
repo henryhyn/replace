@@ -188,8 +188,8 @@ class Replace
 
   def code
     replace(@string) do
-      s /\{% highlight\s*(\w+)\s*%\}\s*/, '```{.\1}' + "\n"
-      s /\s*\{% endhighlight %\}/m, "\n```\n"
+      s /\{% highlight\s*(\w+)\s*%\}\s*/, '```{.\1}'"\n"
+      s /\s*\{% endhighlight %\}/, "\n```\n"
       # 行内代码两边各留一个空格
       s /([[:alnum:]])`([^`]+?)`([[:alnum:]])/, '\1 `\2` \3'
     end
