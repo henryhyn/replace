@@ -231,7 +231,6 @@ class Replace
 
   def foreign_literature
     replace(@string) do
-      s /^[　\s]+/, ''
       s /\s*\n/, "\n\n"
       s /\${4,}\s*/, '#### '
       s /[　\u{001A}]/, ''
@@ -239,7 +238,7 @@ class Replace
       s /#### 第[^\r\n]+[卷部]\s*(.*)\s*\n/, "PART: "'\1'"\n\n"
       s /#### 第[^\r\n]+[章]\s*(.*)\s*\n/, "# "'\1'"\n\n"
     end
-    self
+    del_head_blank
   end
 
   def ancient_literature
