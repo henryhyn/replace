@@ -13,10 +13,23 @@ class Replace
     @scan = @string.scan(/href=['"](.*?)['"]/)
   end
 
+  def scan_image
+    @scan = @string.scan(/!\[.*?\]\(([^\s]+?)(?:\s+.*?)?\)/)
+  end
+
   def simple
     replace(@string) do
       s /cc/, 'dd'
       s /aa/, 'bb'
+    end
+    self
+  end
+
+  def tree
+    replace(@string) do
+      s /[│├]/, '|'
+      s /[└]/, '\\'
+      s /[─]/, '-'
     end
     self
   end
@@ -45,6 +58,14 @@ class Replace
 
   def standard
     code.punctuation.blank
+  end
+
+  def pdftotext
+    replace(@string) do
+      # 删除页码行
+      s /^[[:blank:]]*[０-９]+[[:blank:]]*\r?\n/, ''
+    end
+    self
   end
 
   # 中文标点转为英文标点
@@ -79,6 +100,12 @@ class Replace
       # 〔〕〖〗〘〙〚〛〜〝〞〟
       # 〰
       # 〽
+      # \p{S}: $+<=>^`|~⁄⁒
+      # \p{Sm}: +<=>|~⁄⁒
+      # \p{Sc}: $
+      # \p{Sk}: ^`
+      # \p{Pi}: ‘‛“‟
+      # \p{Pf}: ’”
       s /([\u{FF01}-\u{FF5E}])/ do
         bytes = $1.bytes
         bytes[1] -= 0xBC
@@ -100,7 +127,7 @@ class Replace
 
   def linebreak
     replace(@string) do
-      s /\.\s*/, ".\n"
+      s /(\p{Han})\r?\n/, '\1'
     end
     self
   end
@@ -152,6 +179,7 @@ class Replace
     replace(@string) do
       s /\A(^[^\r\n]*\r?\n){11}\s*/m, ''
       s /^\[«.*?\z/m, ''
+      # s /(^.*?\r?\n){4}\z/, ''
     end
     self
   end
@@ -210,6 +238,14 @@ class Replace
       s /#### 第[^\r\n]+[章]\s*(.*)\s*\n/, "# "'\1'"\n\n"
     end
     self
+  end
+
+  def ancient_literature
+    replace(@string) do
+      s /_古诗文网/, ''
+      s /作者：.*\r?\n/, ''
+    end
+    del_head_blank
   end
 
   private
