@@ -120,6 +120,14 @@ class Replace
     self
   end
 
+  # 删除行首的空白
+  def del_head_blank
+    replace(@string) do
+      s /^[[:blank:]]+/, ''
+    end
+    self
+  end
+
   def image
     replace(@string) do
       s /Insert\s(18333fig\d+)\.png\s*\n.*?\d{1,2}-\d{1,2}\. (.*)/, '![\2](\1-tn.png)'
