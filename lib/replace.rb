@@ -113,7 +113,7 @@ class Replace
       s /(\p{Han})(\w)/, '\1 \2'
       s /(\w)(\p{Han})/, '\1 \2'
     end
-    self
+    del_head_blank.del_foot_blank.del_blank_line
   end
 
   # 删除行首的空白
