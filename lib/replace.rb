@@ -107,8 +107,6 @@ class Replace
 
   def blank
     replace(@string) do
-      # 删除行尾空格, 将看上去像空白行的行变成真正的空白行
-      s /[[:blank:]]+\r?\n/, "\n"
       # 删除多余的空行
       s /(^\r?\n){2,}/, "\n"
       # 删除汉字之间的空格
@@ -124,6 +122,14 @@ class Replace
   def del_head_blank
     replace(@string) do
       s /^[[:blank:]]+/, ''
+    end
+    self
+  end
+
+  # 删除行尾的空白
+  def del_foot_blank
+    replace(@string) do
+      s /[[:blank:]]+\r?\n/, "\n"
     end
     self
   end
