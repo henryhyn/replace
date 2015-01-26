@@ -154,7 +154,7 @@ class Replace
       s /(\p{Han})(\w)/, '\1 \2'
       s /(\w)(\p{Han})/, '\1 \2'
     end
-    del_head_blank.del_tail_blank.del_blank_line
+    del_head_blank.del_blank_line
   end
 
   # 删除行首的空白 (通过验证, 危险等级: 3, 可能是 Markdown 缩进)
@@ -176,7 +176,7 @@ class Replace
   end
 
   # 删除多余的空行 (通过验证, 危险等级: 0)
-  # 将看上去像空白的行转化为真真的空白行
+  # del_tail_blank
   def del_blank_line
     replace(@string) do
       s /(^[[:blank:]]*\r?\n){2,}/, "\n"
