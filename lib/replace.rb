@@ -242,6 +242,7 @@ class Replace
     self
   end
 
+  # 删除加粗斜体样式 (通过验证, 危险等级: 3, 可能是 Markdown 加粗斜体)
   def del_italics_and_bold
     replace(@string) do
       s /([\W_]|^)(\*\*|__)(?=\S)([^\r]*?\S[\*_]*)\2([\W_]|$)/, '\1\3\4'
