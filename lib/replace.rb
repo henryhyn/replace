@@ -80,10 +80,11 @@ class Replace
     self
   end
 
-  # 中文标点转为英文标点
+  # 中文标点转为英文标点 (通过验证, 危险等级: 3, 可能需要用中文标点)
   # 句末符号 .!?;:
   # 标点符号 `$()''""
   # 句中符号 ,、
+  # punct2
   def punctuation
     replace(@string) do
       # ‐‑‒–—―‖‗‘’‚‛“”„‟
@@ -111,12 +112,12 @@ class Replace
       s /(\p{Han})[[:blank:]]*(\p{Ps})/, '\1 \2'
       s /(\p{Pe})[[:blank:]]*(\p{Han})/, '\1 \2'
     end
-    ascii2
+    punct2
   end
 
   # 中文标点转英文标点 (通过验证, 危险等级: 3, 可能需要用中文标点)
-  # ascii2: ？！，；：（）
   # 保留部分中文符号: 、《》〈〉【】〖〗〔〕
+  # ascii2: ？！，；：（）
   def punct2
     replace(@string) do
       s /。/, '.'
