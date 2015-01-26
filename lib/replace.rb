@@ -128,6 +128,18 @@ class Replace
     ascii2
   end
 
+  # 台湾标点转大陆标点 (通过验证, 危险等级: 0)
+  # ascii2
+  def taiwan
+    replace(@string) do
+      s /「/, '‘'
+      s /」/, '’'
+      s /『/, '“'
+      s /』/, '”'
+    end
+    ascii2
+  end
+
   # 双字节 ASCII 字符转为单字节字符 (通过验证, 危险等级: 0)
   # ！＂＃＄％＆＇（）＊＋，－．／
   # ０１２３４５６７８９：；＜＝＞？
