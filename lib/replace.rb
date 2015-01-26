@@ -157,7 +157,8 @@ class Replace
     del_head_blank.del_tail_blank.del_blank_line
   end
 
-  # 删除行首的空白 (通过验证)
+  # 删除行首的空白 (通过验证, 危险等级: 3, 可能是 Markdown 缩进)
+  # 将看上去像空白的行转化为真真的空白行
   def del_head_blank
     replace(@string) do
       s /^[[:blank:]]+/, ''
@@ -165,7 +166,8 @@ class Replace
     self
   end
 
-  # 删除行尾的空白 (通过验证)
+  # 删除行尾的空白 (通过验证, 危险等级: 0)
+  # 将看上去像空白的行转化为真真的空白行
   def del_tail_blank
     replace(@string) do
       s /[[:blank:]]+\r?\n/, "\n"
@@ -173,12 +175,13 @@ class Replace
     self
   end
 
-  # 删除多余的空行 (通过验证)
+  # 删除多余的空行 (通过验证, 危险等级: 0)
+  # 将看上去像空白的行转化为真真的空白行
   def del_blank_line
     replace(@string) do
       s /(^[[:blank:]]*\r?\n){2,}/, "\n"
     end
-    self
+    del_tail_blank
   end
 
   def image
