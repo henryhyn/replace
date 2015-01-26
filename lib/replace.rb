@@ -7,6 +7,16 @@ class Replace
     @string = string
   end
 
+  def help
+    method_comments = {}
+    replace(@string) do
+      s /((.*#.*\r?\n)*)\s*def\s+(\w+)/ do
+        method_comments[$3.to_sym] = $1
+      end
+    end
+    method_comments
+  end
+
   def scan_test
     @scan = @string.scan(/\w+/)
   end

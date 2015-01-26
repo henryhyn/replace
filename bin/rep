@@ -9,11 +9,18 @@ require 'replace'
 options = {
 }
 
+ROOT = File.dirname(__FILE__)
+file = File.join(ROOT, '..', 'lib', 'replace.rb')
+string = File.read(file)
+replace = Replace.new(string)
+method_comments = replace.help
+
 OptionParser.new do |opts|
   opts.banner = 'Usage: rep [options] method [files]'
   methods = Replace.instance_methods - Replace.superclass.instance_methods
   methods.each do |method|
     opts.banner << "\n  #{method}"
+    opts.banner << "\n#{method_comments[method]}"
   end
 end.parse!
 
