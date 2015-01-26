@@ -176,11 +176,12 @@ class Replace
     self
   end
 
-  def linebreak
+  # 删除一些没必要的分行
+  def del_line_break
     replace(@string) do
-      s /(\p{Han})\r?\n/, '\1'
-      s /\r?\n^([[:punct:]])/, '\1'
-      s /\\\r?\n/, "\n"
+      s /(\p{Han})\r?\n(\p{Han})/, '\1\2'
+      s /(\p{Han})\r?\n([[:punct:]])/, '\1\2'
+      s /…{3,}\r?\n/, ''
     end
     self
   end
