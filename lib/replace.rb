@@ -146,6 +146,9 @@ class Replace
     self
   end
 
+  # 删除汉字之间的空格 (通过验证, 危险等级: 3)
+  # 添加汉字与数字、英文之间的空格
+  # del_head_blank.del_blank_line
   def blank
     replace(@string) do
       # 删除汉字之间的空格
