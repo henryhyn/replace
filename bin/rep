@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
-# 字符串替换
+# replace files using regexp
 
 require 'optparse'
 require 'replace'
@@ -24,13 +24,11 @@ Dir[files].map do |file|
   string = File.read(file)
   replace = Replace.new(string)
   unless replace.respond_to?(method)
-    puts "Sorry, the object has no the method #{method}, try rep -h to get help."
+    puts "The object has no the method #{method}, try rep -h to get help."
     exit(0)
   end
   replace.send(method)
-  unless File.writable?(file)
-    File.open(file).chmod(0644)
-  end
+  File.open(file).chmod(0644) unless File.writable?(file)
   File.write(file, replace.string)
   puts replace.scan unless replace.scan.nil?
 end
