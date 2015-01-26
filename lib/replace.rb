@@ -86,7 +86,7 @@ class Replace
       # 删除页码行
       s /^[[:blank:]]*[０-９]+[[:blank:]]*\r?\n/, ''
     end
-    paragraph.del_line_break.chapter.ascii2.add_line_break.blank
+    paragraph.blank.del_line_break.chapter.ascii2.add_line_break
   end
 
   # 中文标点转为英文标点 (通过验证, 危险等级: 3, 可能需要用中文标点)
@@ -318,10 +318,10 @@ class Replace
 
   def chapter
     replace(@string) do
-      s /^第[一二三四五六七八九十]+[卷部篇]/, 'PART: '
-      s /^第[一二三四五六七八九十]+[章]/, '# '
-      s /^第[一二三四五六七八九十]+[节]/, '## '
-      s /^[一二三四五六七八九十]+、/, '### '
+      s /^第[一二三四五六七八九十]+[卷部篇]\s*/, 'PART: '
+      s /^第[一二三四五六七八九十]+[章]\s*/, '# '
+      s /^第[一二三四五六七八九十]+[节]\s*/, '## '
+      s /^[一二三四五六七八九十]+、\s*/, '### '
     end
     self
   end
