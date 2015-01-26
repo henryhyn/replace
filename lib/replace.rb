@@ -86,12 +86,6 @@ class Replace
   # 句中符号 ,、
   def punctuation
     replace(@string) do
-      # ！＂＃＄％＆＇（）＊＋，－．／
-      # ０１２３４５６７８９：；＜＝＞？
-      # ＠ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯ
-      # ＰＱＲＳＴＵＶＷＸＹＺ［＼］＾＿
-      # ｀ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏ
-      # ｐｑｒｓｔｕｖｗｘｙｚ｛｜｝～
       # !"#$%&'()*+,-./
       # 0123456789:;<=>?
       # @ABCDEFGHIJKLMNO
@@ -118,13 +112,6 @@ class Replace
       # \p{Sk}: ^`
       # \p{Pi}: ‘‛“‟
       # \p{Pf}: ’”
-      s /([\u{FF01}-\u{FF5E}])/ do
-        bytes = $1.bytes
-        bytes[1] -= 0xBC
-        bytes[2] -= 0x60
-        bytes[2] += 64*bytes[1]
-        bytes[2..2].pack("c*")
-      end
       s /。/, '.'
       s /“/, '"'
       s /”/, '"'
@@ -134,10 +121,10 @@ class Replace
       s /(\p{Han})[[:blank:]]*(\p{Ps})/, '\1 \2'
       s /(\p{Pe})[[:blank:]]*(\p{Han})/, '\1 \2'
     end
-    self
+    ascii2
   end
 
-  # 双字节 ASCII 字符转为单字节字符
+  # 双字节 ASCII 字符转为单字节字符 (通过验证, 危险等级: 0)
   # ！＂＃＄％＆＇（）＊＋，－．／
   # ０１２３４５６７８９：；＜＝＞？
   # ＠ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯ
