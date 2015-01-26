@@ -204,15 +204,21 @@ class Replace
     self
   end
 
-  # Jekyll 代码格式转为 Fenced 代码格式 (通过验证, 危险等级: 0)
-  # 行内代码两边各留一个空格
+  # 行内代码两边各留一个空格 (未通过验证, 危险等级: 4)
+  # jekyll_code
   def code
     replace(@string) do
-      # Jekyll 代码格式转为 Fenced 代码格式
-      s /\s*\{%\s*highlight\s+(\w+)\s*%\}\s*/, "\n\n"'```{.\1}'"\n"
-      s /\s*\{%\s*endhighlight\s*%\}\s*/, "\n"'```'"\n\n"
       # 行内代码两边各留一个空格
       s /([[:alnum:]])`([^`]+?)`([[:alnum:]])/, '\1 `\2` \3'
+    end
+    jekyll_code
+  end
+
+  # Jekyll 代码格式转为 Fenced 代码格式 (通过验证, 危险等级: 0)
+  def jekyll_code
+    replace(@string) do
+      s /\s*\{%\s*highlight\s+(\w+)\s*%\}\s*/, "\n\n"'```{.\1}'"\n"
+      s /\s*\{%\s*endhighlight\s*%\}\s*/, "\n"'```'"\n\n"
     end
     self
   end
