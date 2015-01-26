@@ -45,6 +45,7 @@ class Replace
     self
   end
 
+  # 处理 Shell 命令 tree 的输出 (通过验证, 危险等级: 0)
   def tree
     replace(@string) do
       s /[│├]/, '|'
@@ -82,6 +83,7 @@ class Replace
     code.punct2.blank
   end
 
+  # 处理 pdftotext 的转换结果 (未通过验证, 危险等级: 4)
   def pdftotext
     replace(@string) do
       # 删除页码行
@@ -228,6 +230,7 @@ class Replace
     del_tail_blank
   end
 
+  # 处理插图路径 (通过验证, 危险等级: 0)
   def image
     replace(@string) do
       s /Insert\s(18333fig\d+)\.png\s*\n.*?\d{1,2}-\d{1,2}\. (.*)/, '![\2](\1-tn.png)'
@@ -236,6 +239,7 @@ class Replace
     self
   end
 
+  # 删除页眉页脚
   def head_foot
     replace(@string) do
       s /\A(^[^\r\n]*\r?\n){11}\s*/m, ''
@@ -264,6 +268,7 @@ class Replace
     self
   end
 
+  # 定理环境, LaTeX 命令 (未通过验证, 危险等级: 2)
   def theorem
     replace(@string) do
       s /^(ASSUMPTION|DEFINITION|CONCLUSION|ALGORITHM|EXPERIMENT|EXAMPLE|REMARK|NNOTE|THEOREM|AXIOM|LEMMA|PROPERTY|COROLLARY|PROPOSITION|CLAIM|PROBLEM|QUESTION|CONJECTURE|PROOF|SOLUTION|ANSWER|ANALYSIS)[.:](.*?)(\n(?=\n)|\Z)/mi do
@@ -279,6 +284,7 @@ class Replace
     self
   end
 
+  # 转换 YAML 标题信息 (通过验证, 危险等级: 0)
   def title
     replace(@string) do
       s /\A^-{3,}\r?\n(.*?)^-{3,}\r?\n/m do
