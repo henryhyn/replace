@@ -86,7 +86,7 @@ class Replace
       # 删除页码行
       s /^[[:blank:]]*[０-９]+[[:blank:]]*\r?\n/, ''
     end
-    self
+    paragraph.del_line_break.chapter.ascii2.add_line_break.blank
   end
 
   # 中文标点转为英文标点 (通过验证, 危险等级: 3, 可能需要用中文标点)
@@ -169,7 +169,7 @@ class Replace
     replace(@string) do
       s /(\p{Han})\r?\n(\p{Han})/, '\1\2'
       s /(\p{Han})\r?\n([[:punct:]])/, '\1\2'
-      s /…{3,}\r?\n/, ''
+      s /…{3,}(\r?\n)+/, ''
     end
     self
   end
