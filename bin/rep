@@ -10,8 +10,8 @@ options = {
 }
 
 ROOT = File.dirname(__FILE__)
-file = File.join(ROOT, '..', 'lib', 'replace.rb')
-string = File.read(file)
+filename = File.join(ROOT, '..', 'lib', 'replace.rb')
+string = File.read(filename)
 replace = Replace.new(string)
 method_comments = replace.help
 
