@@ -137,6 +137,32 @@ class Replace
     self
   end
 
+  # 双字节 ASCII 字符转为单字节字符
+  # ！＂＃＄％＆＇（）＊＋，－．／
+  # ０１２３４５６７８９：；＜＝＞？
+  # ＠ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯ
+  # ＰＱＲＳＴＵＶＷＸＹＺ［＼］＾＿
+  # ｀ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏ
+  # ｐｑｒｓｔｕｖｗｘｙｚ｛｜｝～
+  # !"#$%&'()*+,-./
+  # 0123456789:;<=>?
+  # @ABCDEFGHIJKLMNO
+  # PQRSTUVWXYZ[\]^_
+  # `abcdefghijklmno
+  # pqrstuvwxyz{|}~
+  def ascii2
+    replace(@string) do
+      s /([\u{FF01}-\u{FF5E}])/ do
+        bytes = $1.bytes
+        bytes[1] -= 0xBC
+        bytes[2] -= 0x60
+        bytes[2] += 64*bytes[1]
+        bytes[2..2].pack("c*")
+      end
+    end
+    self
+  end
+
   def linebreak
     replace(@string) do
       s /(\p{Han})\r?\n/, '\1'
