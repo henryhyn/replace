@@ -157,7 +157,7 @@ class Replace
     del_head_blank.del_foot_blank.del_blank_line
   end
 
-  # 删除行首的空白
+  # 删除行首的空白 (通过验证)
   def del_head_blank
     replace(@string) do
       s /^[[:blank:]]+/, ''
@@ -165,7 +165,7 @@ class Replace
     self
   end
 
-  # 删除行尾的空白
+  # 删除行尾的空白 (通过验证)
   def del_foot_blank
     replace(@string) do
       s /[[:blank:]]+\r?\n/, "\n"
@@ -173,10 +173,10 @@ class Replace
     self
   end
 
-  # 删除多余的空行
+  # 删除多余的空行 (通过验证)
   def del_blank_line
     replace(@string) do
-      s /(^\r?\n){2,}/, "\n"
+      s /(^[[:blank:]]*\r?\n){2,}/, "\n"
     end
     self
   end
