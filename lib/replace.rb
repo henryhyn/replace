@@ -1,3 +1,5 @@
+require 'yaml'
+
 class Replace
   attr_reader :string, :scan
 

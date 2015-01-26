@@ -2,8 +2,16 @@
 # -*- coding: utf-8 -*-
 # 字符串替换
 
-require 'yaml'
+require 'optparse'
 require 'replace'
+
+# We set default values here.
+options = {
+}
+
+OptionParser.new do |opts|
+  opts.banner = 'Usage: rep [options] method [files]'
+end.parse!
 
 files = '*.md'
 files = ARGV[1] if ARGV.length > 1
