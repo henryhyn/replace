@@ -90,11 +90,9 @@ class Replace
   end
 
   # 中文标点转为英文标点 (通过验证, 危险等级: 3, 可能需要用中文标点)
-  # 句末符号 .!?;:
-  # 标点符号 `$()''""
-  # 句中符号 ,、
-  # punct2
-  def punctuation
+  # 保留部分中文符号: 、《》〈〉【】〖〗〔〕
+  # ascii2: ？！，；：（）
+  def punct2
     replace(@string) do
       # ‐‑‒–—―‖‗‘’‚‛“”„‟
       # †‡•‣․‥…‧
@@ -116,19 +114,9 @@ class Replace
       # \p{Sk}: ^`
       # \p{Pi}: ‘‛“‟
       # \p{Pf}: ’”
-      s /(\p{Han})[[:blank:]]*([:,])[[:blank:]]*(\p{Han})/, '\1\2 \3'
-      s /(\p{Han})[[:blank:]]*([.!?;])[[:blank:]]*(\p{Han})/, '\1\2'"\n"'\3'
-      s /(\p{Han})[[:blank:]]*(\p{Ps})/, '\1 \2'
-      s /(\p{Pe})[[:blank:]]*(\p{Han})/, '\1 \2'
-    end
-    punct2
-  end
-
-  # 中文标点转英文标点 (通过验证, 危险等级: 3, 可能需要用中文标点)
-  # 保留部分中文符号: 、《》〈〉【】〖〗〔〕
-  # ascii2: ？！，；：（）
-  def punct2
-    replace(@string) do
+      # 句末符号 .!?;:
+      # 标点符号 `$()''""
+      # 句中符号 ,、
       s /。/, '.'
       s /[“”]/, '"'
       s /[‘’]/, "'"
@@ -182,6 +170,17 @@ class Replace
       s /(\p{Han})\r?\n(\p{Han})/, '\1\2'
       s /(\p{Han})\r?\n([[:punct:]])/, '\1\2'
       s /…{3,}\r?\n/, ''
+    end
+    self
+  end
+
+  # 增加一些必要的分行
+  def add_line_break
+    replace(@string) do
+      s /(\p{Han})[[:blank:]]*([:,])[[:blank:]]*(\p{Han})/, '\1\2 \3'
+      s /(\p{Han})[[:blank:]]*([。.!?;])[[:blank:]]*(\p{Han})/, '\1\2'"\n"'\3'
+      s /(\p{Han})[[:blank:]]*(\p{Ps})/, '\1 \2'
+      s /(\p{Pe})[[:blank:]]*(\p{Han})/, '\1 \2'
     end
     self
   end
