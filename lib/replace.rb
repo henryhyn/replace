@@ -154,7 +154,7 @@ class Replace
       s /(\p{Han})(\w)/, '\1 \2'
       s /(\w)(\p{Han})/, '\1 \2'
     end
-    del_head_blank.del_foot_blank.del_blank_line
+    del_head_blank.del_tail_blank.del_blank_line
   end
 
   # 删除行首的空白 (通过验证)
@@ -166,7 +166,7 @@ class Replace
   end
 
   # 删除行尾的空白 (通过验证)
-  def del_foot_blank
+  def del_tail_blank
     replace(@string) do
       s /[[:blank:]]+\r?\n/, "\n"
     end
