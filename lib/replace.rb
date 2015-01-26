@@ -68,6 +68,8 @@ class Replace
     theorem
   end
 
+  # 标准化 Markdown 文件, 处理 HTML 文件的转换结果 (未通过验证, 危险等级: 4)
+  # code.punctuation.blank
   def standard
     code.punctuation.blank
   end
