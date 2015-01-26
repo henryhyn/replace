@@ -168,6 +168,7 @@ class Replace
   # 删除一些没必要的分行
   def del_line_break
     replace(@string) do
+      # "无\n法\n处\n理\n这\n种\n情\n况"
       s /(\p{Han})\r?\n(\p{Han})/, '\1\2'
       s /(\p{Han})\r?\n([[:punct:]])/, '\1\2'
       s /…{3,}(\r?\n)+/, ''
@@ -191,7 +192,7 @@ class Replace
   # del_head_blank.del_blank_line
   def blank
     replace(@string) do
-      # 删除汉字之间的空格
+      # 删除汉字之间的空格, "无 法 处 理 这 种 情 况"
       s /(\p{Han})[[:blank:]]+(\p{Han})/, '\1\2'
       # 添加汉字与数字、英文之间的空格
       s /(\p{Han})(\w)/, '\1 \2'
