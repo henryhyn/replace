@@ -37,6 +37,7 @@ class Replace
     self
   end
 
+  # 判定段落的起始 (通过验证, 危险等级: 0)
   def paragraph
     replace(@string) do
       s /^[[:blank:]]{2,}/, "\n"
@@ -76,9 +77,9 @@ class Replace
   end
 
   # 标准化 Markdown 文件, 处理 HTML 文件的转换结果 (未通过验证, 危险等级: 4)
-  # code.punctuation.blank
+  # code.punct2.blank
   def standard
-    code.punctuation.blank
+    code.punct2.blank
   end
 
   def pdftotext
