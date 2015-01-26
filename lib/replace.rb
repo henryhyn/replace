@@ -37,6 +37,13 @@ class Replace
     self
   end
 
+  def paragraph
+    replace(@string) do
+      s /^[[:blank:]]{2,}/, "\n"
+    end
+    self
+  end
+
   def tree
     replace(@string) do
       s /[│├]/, '|'
@@ -307,6 +314,16 @@ class Replace
       s /作者：.*\r?\n/, ''
     end
     del_head_blank
+  end
+
+  def chapter
+    replace(@string) do
+      s /^第[一二三四五六七八九十]+[卷部篇]/, 'PART: '
+      s /^第[一二三四五六七八九十]+[章]/, '# '
+      s /^第[一二三四五六七八九十]+[节]/, '## '
+      s /^[一二三四五六七八九十]+、/, '### '
+    end
+    self
   end
 
   private
