@@ -19,7 +19,7 @@ OptionParser.new do |opts|
   opts.banner = 'Usage: rep [options] method [files]'
   methods = Replace.instance_methods - Replace.superclass.instance_methods
   methods.each do |method|
-    opts.banner << "\n  #{method}"
+    opts.banner << "\n#{method}"
     opts.banner << "\n#{method_comments[method]}"
   end
 end.parse!
