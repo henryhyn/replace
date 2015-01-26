@@ -86,12 +86,6 @@ class Replace
   # 句中符号 ,、
   def punctuation
     replace(@string) do
-      # !"#$%&'()*+,-./
-      # 0123456789:;<=>?
-      # @ABCDEFGHIJKLMNO
-      # PQRSTUVWXYZ[\]^_
-      # `abcdefghijklmno
-      # pqrstuvwxyz{|}~
       # ‐‑‒–—―‖‗‘’‚‛“”„‟
       # †‡•‣․‥…‧
       # ‰‱′″‴‵‶‷‸‹›※‼‽‾‿
@@ -112,10 +106,6 @@ class Replace
       # \p{Sk}: ^`
       # \p{Pi}: ‘‛“‟
       # \p{Pf}: ’”
-      s /。/, '.'
-      s /“/, '"'
-      s /”/, '"'
-      s /’/, "'"
       s /(\p{Han})[[:blank:]]*([:,])[[:blank:]]*(\p{Han})/, '\1\2 \3'
       s /(\p{Han})[[:blank:]]*([.!?;])[[:blank:]]*(\p{Han})/, '\1\2'"\n"'\3'
       s /(\p{Han})[[:blank:]]*(\p{Ps})/, '\1 \2'
@@ -126,7 +116,7 @@ class Replace
 
   # 中文标点转英文标点 (通过验证, 危险等级: 3, 可能需要用中文标点)
   # ascii2: ？！，；：（）
-  # 保留部分中文符号: 、《》〈〉
+  # 保留部分中文符号: 、《》〈〉【】〖〗〔〕
   def punct2
     replace(@string) do
       s /。/, '.'
