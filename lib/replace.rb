@@ -77,13 +77,13 @@ class Replace
   end
 
   # 处理 pdftotext 的转换结果 (未通过验证, 危险等级: 4)
-  # paragraph.blank.del_line_break.chapter.list.ascii2.format_markdown
+  # paragraph.blank.del_line_break.chapter.list.punct2.add_line_break
   def pdftotext
     replace(@string) do
       # 删除页码行
       s /^[[:blank:]]*[０-９]+[[:blank:]]*\r?\n/, ''
     end
-    paragraph.blank.del_line_break.chapter.list.ascii2.format_markdown
+    paragraph.blank.del_line_break.chapter.list.punct2.add_line_break
   end
 
   # 中文标点转为英文标点 (通过验证, 危险等级: 3, 可能需要用中文标点)
