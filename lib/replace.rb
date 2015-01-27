@@ -77,12 +77,13 @@ class Replace
   end
 
   # 处理 pdftotext 的转换结果 (未通过验证, 危险等级: 4)
+  # paragraph.blank.del_line_break.chapter.list.ascii2.format_markdown
   def pdftotext
     replace(@string) do
       # 删除页码行
       s /^[[:blank:]]*[０-９]+[[:blank:]]*\r?\n/, ''
     end
-    paragraph.blank.del_line_break.chapter.ascii2.add_line_break
+    paragraph.blank.del_line_break.chapter.list.ascii2.format_markdown
   end
 
   # 中文标点转为英文标点 (通过验证, 危险等级: 3, 可能需要用中文标点)
@@ -332,6 +333,14 @@ class Replace
       s /^第[一二三四五六七八九十]+[章]/, '# '
       s /^第[一二三四五六七八九十]+[节]/, '## '
       s /^[一二三四五六七八九十]+、/, '### '
+      s /^\([一二三四五六七八九十]+\)/, '#### '
+    end
+    self
+  end
+
+  def list
+    replace(@string) do
+      s /(\d.)/, '\1'"\t"
     end
     self
   end
