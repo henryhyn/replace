@@ -38,14 +38,6 @@ class Replace
     self
   end
 
-  # 判定段落的起始 (通过验证, 危险等级: 0)
-  def paragraph
-    replace(@string) do
-      s /^[[:blank:]]{2,}/, "\n"
-    end
-    self
-  end
-
   # 处理 Shell 命令 tree 的输出 (通过验证, 危险等级: 0)
   def tree
     replace(@string) do
@@ -325,12 +317,21 @@ class Replace
     del_head_blank
   end
 
+  # 判定段落的起始 (通过验证, 危险等级: 0)
+  def paragraph
+    replace(@string) do
+      s /^[[:blank:]]{2,}/, "\n"
+    end
+    self
+  end
+
+  # 判定章节标题 (通过验证, 危险等级: 0)
   def chapter
     replace(@string) do
-      s /^第[一二三四五六七八九十]+[卷部篇]\s*/, 'PART: '
-      s /^第[一二三四五六七八九十]+[章]\s*/, '# '
-      s /^第[一二三四五六七八九十]+[节]\s*/, '## '
-      s /^[一二三四五六七八九十]+、\s*/, '### '
+      s /^第[一二三四五六七八九十]+[卷部篇]/, 'PART: '
+      s /^第[一二三四五六七八九十]+[章]/, '# '
+      s /^第[一二三四五六七八九十]+[节]/, '## '
+      s /^[一二三四五六七八九十]+、/, '### '
     end
     self
   end
