@@ -341,7 +341,7 @@ class Replace
 
   def markdown2html
     converter = PandocRuby.new(@string, from: :markdown, to: :html)
-    @string = converter.convert('chapters')
+    @string = converter.convert('chapters', 'indented-code-classes' => 'sourceCode')
     self
   end
 
