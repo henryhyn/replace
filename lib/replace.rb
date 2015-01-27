@@ -1,4 +1,5 @@
 require 'yaml'
+require 'pandoc-ruby'
 
 class Replace
   attr_reader :string, :scan
@@ -331,6 +332,22 @@ class Replace
       s /^第[一二三四五六七八九十]+[节]\s*/, '## '
       s /^[一二三四五六七八九十]+、\s*/, '### '
     end
+    self
+  end
+
+  def format_markdown
+    markdown2html.html2markdown
+  end
+
+  def markdown2html
+    converter = PandocRuby.new(@string, from: :markdown, to: :html)
+    @string = converter.convert('chapters')
+    self
+  end
+
+  def html2markdown
+    converter = PandocRuby.new(@string, from: :html, to: :markdown)
+    @string = converter.convert('chapters', 'atx-headers', 'normalize', 'columns' => 100)
     self
   end
 
