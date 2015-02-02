@@ -30,6 +30,26 @@ class Replace
     @scan = @string.scan(/!\[.*?\]\(([^\s]+?)(?:\s+.*?)?\)/)
   end
 
+  # 扫描注释列表生成替换字典
+  def scan_note
+    note = {}
+    @string.scan(/^[(（]\d+[）)]\s*(.*?)[:：]\s*(.*)/) do |key, value|
+      key_stem = key.gsub(/[(（](.*?)[）)]/, '')
+      note[key_stem] = "#{key}: #{value}"
+    end
+    note
+  end
+
+  # 批量逐个替换第一个匹配项
+  def batch_replace(regexps = {})
+    regexps.each do |key, value|
+      replace(@string) do
+        sub! Regexp.new("\\G(.*?)#{key}", Regexp::MULTILINE), '\1'"#{key} ^[#{value}] "
+      end
+    end
+    self
+  end
+
   def simple
     replace(@string) do
       s /cc/, 'dd'
@@ -66,6 +86,8 @@ class Replace
     replace(@string) do
       s /\{verbatim\}/, '{Verbatim}'
       s /\\begin\{center\}\\rule\{3in\}\{0.4pt\}\\end\{center\}/, '\newpage'
+      s /\s*\\footnote\{(.*?)\}\s*/, '\footnote{\1}'
+      s /\\footnote\{(.*?)[:：]\s*(.*?)\}/, '〔{\kaishu \1: \2}〕'
     end
     theorem
   end
@@ -73,7 +95,7 @@ class Replace
   # 标准化 Markdown 文件, 处理 HTML 文件的转换结果 (未通过验证, 危险等级: 4)
   # code.punct2.blank
   def standard
-    code.punct2.blank
+    blank.del_line_break.punct2.code.add_line_break.format_markdown
   end
 
   # 处理 pdftotext 的转换结果 (未通过验证, 危险等级: 4)
@@ -340,7 +362,8 @@ class Replace
 
   def list
     replace(@string) do
-      s /(\d.)/, '\1'"\t"
+      s /^(\d.)\s*/, '\1'"\t"
+      s /^[●]\s*/, "-\t"
     end
     self
   end
