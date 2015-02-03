@@ -32,8 +32,9 @@ class Replace
 
   # 扫描注释列表生成替换字典
   def scan_note
+    del_head_blank
     note = {}
-    @string.scan(/^[(（]\d+[）)]\s*(.*?)[:：]\s*(.*)/) do |key, value|
+    @string.scan(/^[(（]\d+[）)]\s*(.*?)[:：]\s*(.*?)\\?\r?\n/) do |key, value|
       key_stem = key.gsub(/[(（](.*?)[）)]/, '')
       note[key_stem] = "#{key}: #{value}"
     end
