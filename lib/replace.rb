@@ -386,11 +386,11 @@ class Replace
     self
   end
 
-  # 繁体（台湾正体标准）到简体并转换为中国大陆常用词汇
+  # 台湾正体到简体
   # brew install opencc
   # sudo gem install ropencc
-  def tw2sp
-    converter = Ropencc.open('tw2sp.json')
+  def tw2s
+    converter = Ropencc.open('tw2s.json')
     @string = converter.convert(@string)
     self
   end
