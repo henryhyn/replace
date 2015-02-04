@@ -1,5 +1,6 @@
 require 'yaml'
 require 'pandoc-ruby'
+require 'ropencc'
 
 class Replace
   attr_reader :string, :scan
@@ -382,6 +383,15 @@ class Replace
   def html2markdown
     converter = PandocRuby.new(@string, from: :html, to: :markdown)
     @string = converter.convert('chapters', 'atx-headers', 'normalize', 'columns' => 100)
+    self
+  end
+
+  # 繁体（台湾正体标准）到简体并转换为中国大陆常用词汇
+  # brew install opencc
+  # sudo gem install ropencc
+  def tw2sp
+    converter = Ropencc.open('tw2sp.json')
+    @string = converter.convert(@string)
     self
   end
 

@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
 
   # If you have other dependencies, add them here
   s.add_dependency 'pandoc-ruby', '~> 0.7.5'
+  s.add_dependency 'ropencc', '~> 0.0.6'
 
   # If you need to check in files that aren't .rb files, add them here
   s.files = Dir['bin/*', 'lib/*']
