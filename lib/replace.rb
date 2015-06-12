@@ -35,9 +35,12 @@ class Replace
   def scan_note
     del_head_blank
     note = {}
-    @string.scan(/^[(（]\d+[）)]\s*(.*?)[:：]\s*(.*?)\\?\r?\n/) do |key, value|
-      key_stem = key.gsub(/[(（](.*?)[）)]/, '')
-      note[key_stem] = "#{key}: #{value}"
+    # @string.scan(/^[(（]\d+[）)]\s*(.*?)[:：]\s*(.*?)\\?\r?\n/) do |key, value|
+    @string.scan(/^(.*?)〔(.*?〕.*?)\r?\n/) do |key, value|
+      # key_stem = key.gsub(/[(（](.*?)[）)]/, '')
+      key_stem = "\\^#{key}\\^"
+      # note[key_stem] = "#{key}: #{value}"
+      note[key_stem] = value.sub(/〕/, ': ')
     end
     note
   end
@@ -46,10 +49,14 @@ class Replace
   def batch_replace(regexps = {})
     regexps.each do |key, value|
       replace(@string) do
-        sub! Regexp.new("\\G(.*?)#{key}", Regexp::MULTILINE), '\1'"#{key} ^[#{value}] "
+        sub! Regexp.new("\\G(.*?)#{key}", Regexp::MULTILINE), '\1'" ^[#{value}] "
       end
     end
     self
+  end
+
+  def footnote
+    batch_replace(scan_note)
   end
 
   def simple
@@ -87,7 +94,7 @@ class Replace
   def post_pandoc_for_latex
     replace(@string) do
       s /\{verbatim\}/, '{Verbatim}'
-      s /\\begin\{center\}\\rule\{3in\}\{0.4pt\}\\end\{center\}/, '\newpage'
+      s /\\begin\{center\}\\rule\{(.*?)\}\{(.*?)\}\\end\{center\}/, '\newpage'
       s /\s*\\footnote\{(.*?)\}\s*/, '\footnote{\1}'
       s /\\footnote\{(.*?)[:：]\s*(.*?)\}/, '〔{\kaishu \1: \2}〕'
     end
@@ -252,7 +259,7 @@ class Replace
   def image
     replace(@string) do
       s /Insert\s(18333fig\d+)\.png\s*\n.*?\d{1,2}-\d{1,2}\. (.*)/, '![\2](\1-tn.png)'
-      s /!\[(.*?)\]\(.*\/(.*?)\)/, '![\1](\2)'
+      s /!\[(.*?)\]\(\S*\/(\S*?)( ".*")?\)/, '![\1](\2)'
     end
     self
   end
@@ -382,7 +389,7 @@ class Replace
 
   def html2markdown
     converter = PandocRuby.new(@string, from: :html, to: :markdown)
-    @string = converter.convert('chapters', 'atx-headers', 'normalize', 'columns' => 100)
+    @string = converter.convert('chapters', 'atx-headers', 'normalize', 'no-wrap')
     self
   end
 
