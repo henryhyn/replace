@@ -1,29 +1,28 @@
-Gem::Specification.new do |s|
-  s.name        = 'replace'
-  s.version     = '1.0.1'
-  s.date        = '2014-12-13'
-  s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Henry He']
-  s.email       = ['henryhyn@163.com']
-  s.summary     = 'replace file using Regexp'
-  s.description = 'replace file using Regexp.'
+Gem::Specification.new do |spec|
+  spec.name          = 'replace'
+  spec.version       = '1.0.1'
+  spec.date          = '2014-12-13'
+  spec.platform      = Gem::Platform::RUBY
+  spec.authors       = ['Henry He']
+  spec.email         = ['henryhyn@163.com']
 
-  s.required_rubygems_version = '>= 1.3.6'
+  spec.summary       = %q{replace file using Regexp}
+  spec.description   = %q{replace file using Regexp.}
+  spec.homepage      = 'https://github.com/henryhyn/replace'
+  spec.license       = 'MIT'
 
-  # lol - required for validation
-  s.rubyforge_project         = 'replace'
+  spec.files         = Dir['bin/*', 'lib/*']
+  spec.bindir        = 'bin'
+  spec.executables   = ['rep']
+  spec.require_paths = ['lib']
 
-  # If you have other dependencies, add them here
-  s.add_dependency 'pandoc-ruby', '~> 1.0.0'
-  s.add_dependency 'ropencc', '~> 0.0.6'
+  spec.required_rubygems_version = '>= 1.3.6'
+  spec.rubyforge_project         = 'replace'
 
-  # If you need to check in files that aren't .rb files, add them here
-  s.files = Dir['bin/*', 'lib/*']
-  s.require_paths = ['lib']
+  spec.add_development_dependency 'bundler', '~> 1.10'
+  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rspec'
 
-  # If you need an executable, add it here
-  s.executables = ['rep']
-
-  # If you have C extensions, uncomment this line
-  # s.extensions = 'ext/extconf.rb'
+  spec.add_runtime_dependency 'pandoc-ruby', '~> 1.0.0'
+  spec.add_runtime_dependency 'ropencc', '~> 0.0.6'
 end
