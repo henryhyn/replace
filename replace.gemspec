@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = 'replace'
-  spec.version       = '1.0.1'
+  spec.version       = '1.0.2'
   spec.date          = '2014-12-13'
   spec.platform      = Gem::Platform::RUBY
   spec.authors       = ['Henry He']
